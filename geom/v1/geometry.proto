@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package geomsvc.v1;
 
-option go_package = "github.com/AnthonyHewins/geometry/geom/v1;geomsvc";
+option go_package = "github.com/AnthonyHewins/geometry/geom/gen/go/geom/v1;geomsvc";
 
 import "google/protobuf/struct.proto";
 
