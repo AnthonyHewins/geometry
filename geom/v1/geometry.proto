@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package geomsvc.v1;
+
+option go_package = "github.com/AnthonyHewins/geometry/v1/gen/go/geomsvc/v1;geomsvc";
+
+import "google/protobuf/struct.proto";
+
+enum Unit {
+	UNIT_UNSPECIFIED  = 0;
+	UNIT_M            = 1;
+	UNIT_KM           = 2;
+	UNIT_FT           = 3;
+	UNIT_MI           = 4;
+}
+
+enum Type {
+	TYPE_UNSPECIFIED = 0;
+	TYPE_POINT = 1;
+	TYPE_LINESTRING = 2;
+	TYPE_POLYGON = 3;
+	TYPE_MULTIPOINT = 4;
+	TYPE_MULTILINESTRING = 5;
+	TYPE_MULTIPOLYGON = 6;
+}
+
+message Point {
+	double x = 1;
+	double y = 2;
+}
+
+message MultiPoint {
+	repeated Point points = 1;
+}
+
+message Line {
+	repeated Point points = 1;
+}
+
+message MultiLine {
+	repeated Line lines = 1;
+}
+
+message Polygon {
+	repeated Line rings = 1;
+}
+
+message MultiPolygon {
+	repeated Polygon polygons = 1;
+}
+
+message BoundingBox {
+	Point bottom_left = 1;
+	Point top_right = 2;
+}
+
+message Geometry {
+	oneof geomtype {
+		Point point_val = 1;
+		MultiPoint multipoint_val = 2;
+		Line line_val = 3;
+		MultiLine multiline_val = 4;
+		Polygon polygon_val = 5;
+		MultiPolygon multipolygon_val = 6;
+		BoundingBox bbox = 7;
+	}
+}
+
+message GeometryCollection {
+	repeated Geometry geometries = 1;
+}
+
+message Feature {
+	uint64 id = 1;
+	Type type = 2;
+	Geometry geometry = 3;
+    google.protobuf.Struct props = 4;
+}
+
+message FeatureCollection {
+	repeated Feature Features = 1;
+}
