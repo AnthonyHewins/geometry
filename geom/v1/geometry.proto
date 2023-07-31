@@ -69,14 +69,3 @@ message Geometry {
 message GeometryCollection {
 	repeated Geometry geometries = 1;
 }
-
-message Feature {
-	uint64 id = 1;
-	Type type = 2;
-	Geometry geometry = 3;
-    google.protobuf.Struct props = 4;
-}
-
-message FeatureCollection {
-	repeated Feature Features = 1;
-}
