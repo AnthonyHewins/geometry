@@ -6,14 +6,7 @@ option go_package = "github.com/AnthonyHewins/geometry/gen/go/geom/v1;geomsvc";
 
 import "google/protobuf/struct.proto";
 
-enum Unit {
-	UNIT_UNSPECIFIED  = 0;
-	UNIT_M            = 1;
-	UNIT_KM           = 2;
-	UNIT_FT           = 3;
-	UNIT_MI           = 4;
-}
-
+// Type specifies the geometry type
 enum Type {
 	TYPE_UNSPECIFIED = 0;
 	TYPE_POINT = 1;
@@ -24,36 +17,48 @@ enum Type {
 	TYPE_MULTIPOLYGON = 6;
 }
 
+// Point is at least a 2D point that can support
+// a Z and M value
 message Point {
 	double x = 1;
 	double y = 2;
+	optional double z = 3;
+	optional double m = 4;
 }
 
+// Multipoint is a series of 0 or more points
 message MultiPoint {
 	repeated Point points = 1;
 }
 
+// Line is a series of 0 or more connected points
 message Line {
 	repeated Point points = 1;
 }
 
+// Multiline is a series of 0 or more Lines
 message MultiLine {
 	repeated Line lines = 1;
 }
 
+// A polygon is an enclosed ring that follows the
+// GeoJSON specification
 message Polygon {
 	repeated Line rings = 1;
 }
 
+// A multipolygon is a series of 0 or more Polygons
 message MultiPolygon {
 	repeated Polygon polygons = 1;
 }
 
+// BoundingBox is an envelope
 message BoundingBox {
 	Point bottom_left = 1;
 	Point top_right = 2;
 }
 
+// Geometry is any of the geometry types listed above
 message Geometry {
 	oneof geomtype {
 		Point point_val = 1;
@@ -66,6 +71,7 @@ message Geometry {
 	}
 }
 
+// GeometryCollection is a list of Geometries
 message GeometryCollection {
 	repeated Geometry geometries = 1;
 }
